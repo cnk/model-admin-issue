@@ -268,9 +268,19 @@ class RelatedDocument(ClusterableModel):
         related_name='+'
     )
 
+    # # Works
+    # panels = [
+    #     FieldPanel('title'),
+    #     DocumentChooserPanel('doc'),
+    # ]
+
+    # Does not work
     panels = [
-        FieldPanel('title'),
-        DocumentChooserPanel('doc'),
+        MultiFieldPanel(
+            [
+                FieldPanel('title'),
+                DocumentChooserPanel('doc'),
+            ])
     ]
 
     # content_panels = [
