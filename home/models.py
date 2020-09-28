@@ -13,6 +13,8 @@ from wagtail.admin.edit_handlers import (
 from wagtail.admin.forms import WagtailAdminModelForm
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.documents.models import Document
+from wagtail.documents.edit_handlers import DocumentChooserPanel
 
 
 class HomePage(Page):
@@ -146,3 +148,147 @@ class GalleryPhoto(ClusterableModel):
 
         super().save(**kwargs)
 
+
+class SimplePhoto(ClusterableModel):
+    """
+    An even simpler model to see what is the minimum set up to trigger: 'NoneType' object has no attribute '_meta'
+    """
+
+    image = models.ForeignKey(
+        Image,
+        on_delete=models.CASCADE,
+        related_name='+'
+    )
+    live = models.BooleanField(
+        verbose_name='Is Live',
+        default=False,
+    )
+
+    content_panels = [
+        MultiFieldPanel(
+            [
+                ImageChooserPanel('image'),
+                FieldPanel('live'),
+            ],
+            heading= 'Simple Photo'
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading='Content'),
+        ],
+    )
+
+    class Meta:
+        verbose_name = 'Simple Photo'
+        verbose_name_plural = 'Simple Photos'
+
+
+class RelatedLink(ClusterableModel):
+    """
+    And this happens with page choosers too
+    """
+
+    title = models.CharField(
+        max_length=256,
+    )
+    link = models.ForeignKey(
+        HomePage,
+        on_delete=models.CASCADE,
+        related_name='+'
+    )
+
+    content_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('title'),
+                PageChooserPanel('link'),
+            ],
+            heading= 'Related Link'
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading='Content'),
+        ],
+    )
+
+    class Meta:
+        verbose_name = 'Related Link'
+        verbose_name_plural = 'Related Link'
+
+
+class SimpleThing(ClusterableModel):
+    """
+    OK without choosers?
+    """
+
+    title = models.CharField(
+        max_length=256,
+    )
+    live = models.BooleanField(
+        verbose_name='Is Live',
+        default=False,
+    )
+
+    content_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('title'),
+                FieldPanel('live'),
+            ],
+            heading= 'Simple Thing'
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading='Content'),
+        ],
+    )
+
+    class Meta:
+        verbose_name = 'Simple Thing'
+        verbose_name_plural = 'Simple Thing'
+
+
+class RelatedDocument(ClusterableModel):
+    """
+    All choosers broken?
+    """
+
+    title = models.CharField(
+        max_length=256,
+    )
+    doc = models.ForeignKey(
+        Document,
+        on_delete=models.CASCADE,
+        related_name='+'
+    )
+
+    panels = [
+        FieldPanel('title'),
+        DocumentChooserPanel('doc'),
+    ]
+
+    # content_panels = [
+    #     MultiFieldPanel(
+    #         [
+    #             FieldPanel('title'),
+    #             DocumentChooserPanel('doc'),
+    #         ],
+    #         heading= 'Related Document'
+    #     ),
+    # ]
+
+    # edit_handler = TabbedInterface(
+    #     [
+    #         ObjectList(content_panels, heading='Content'),
+    #     ],
+    # )
+
+    class Meta:
+        verbose_name = 'Related Document'
+        verbose_name_plural = 'Related Documents'
