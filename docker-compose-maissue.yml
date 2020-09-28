@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: model-admin-issue
+      dockerfile: Dockerfile
+    working_dir: /code/maissue
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /code/wagtail
+        pip install -e .[testing,docs]
+        cd /code/maissue
+        python manage.py migrate --noinput
+        python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./wagtail:/code/wagtail:delegated,rw
+      - ./model-admin-issue:/code/maissue:delegated,rw
+    ports:
+      - "8080:8000"
+    environment:
+      PYTHONPATH: /code/wagtail:/code/maissue:$PYTHONPATH
+    depends_on:
+      - frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    working_dir: /code/wagtail
+    volumes:
+      - ./wagtail:/code/wagtail:delegated,rw
+    command:
+      - /bin/sh
+      - -c
+      - |
+        cp -r /node_modules /code/wagtail
+        npm run start
