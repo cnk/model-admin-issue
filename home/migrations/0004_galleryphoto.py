@@ -23,7 +23,6 @@ class Migration(migrations.Migration):
                 ('first_published_at', models.DateTimeField(blank=True, db_index=True, help_text="This field should rarely be touched. It will auto-populate the first time this item is saved withthe 'Is Live' checkbox checked. It's only editable to allow Admins to change this item's sort order.", null=True, verbose_name='First published at')),
                 ('last_published_at', models.DateTimeField(editable=False, null=True, verbose_name='Last published at')),
                 ('image', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailimages.image')),
-                ('site', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='gallery_photos', to='wagtailcore.site')),
             ],
             options={
                 'verbose_name': 'Gallery Photo',

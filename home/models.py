@@ -45,19 +45,6 @@ class GalleryPhotoForm(WagtailAdminModelForm):
         if 'first_published_at' in cleaned_data and not cleaned_data['first_published_at']:
             del cleaned_data['first_published_at']
 
-        # Set site
-        print(self.__dict__)
-        current_site = Site.find_for_request()
-        try:
-            if self.instance and self.instance.site and self.instance.site != current_site:
-                raise ValidationError(
-                    f'The Site associated with this {self.instance.__class__.__name__} is {self.instance.site}, but the'
-                    f'current Site is {current_site}. Changing the Site of an existing object is not allowed.'
-                )
-        except ObjectDoesNotExist:
-            # We're in a create, so self.instance.site does not resolve.
-            pass
-
         return cleaned_data
 
 
@@ -67,11 +54,6 @@ class GalleryPhoto(ClusterableModel):
     a customized manner.
     """
 
-    site = models.ForeignKey(
-        Site,
-        related_name='gallery_photos',
-        on_delete=models.CASCADE
-    )
     image = models.ForeignKey(
         Image,
         on_delete=models.CASCADE,
