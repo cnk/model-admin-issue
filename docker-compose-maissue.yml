@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: model-admin-issue
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
     working_dir: /code/maissue
     command:
       - /bin/bash

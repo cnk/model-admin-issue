@@ -5,7 +5,7 @@ LABEL maintainer="hello@wagtail.io"
 # Set environment varibles
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update -y && apt-get install -y libenchant-dev
+RUN apt-get update -y && apt-get install -y libenchant-dev sqlite
 
 RUN mkdir -p /code/requirements
 COPY ./requirements.txt /code/requirements.txt
