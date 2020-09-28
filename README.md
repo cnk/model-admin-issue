@@ -1,7 +1,7 @@
 # What issue does this demonstrate
 
 This repo exercises various ModelAdmin custom models that had been
-working up until commit "[80cc70b7ce6f5013fcc69ea8878dd4ab79d3ae1d]
+working up until commit "[80cc70b7ce6f5013fcc69ea8878dd4ab79d3ae1d](https://github.com/wagtail/wagtail/commit/80cc70b7ce6f5013fcc69ea8878dd4ab79d3ae1d)
 Instantiate edit_handler and form once in ModelAdmin views"
 
 There appears to be a change in how choosers interact with costom edit
